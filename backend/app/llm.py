@@ -8,12 +8,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ================= CONFIG ===================
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_API_URL = os.getenv("OPENAI_API_URL", "https://api.openai.com/v1/chat/completions")
-MODEL = os.getenv("LLM_MODEL", "gpt-5-thinking-mini")  
+MODEL = os.getenv("LLM_MODEL", "gpt-3.5-turbo")  
 MOCK_LLM = os.getenv("MOCK_LLM", "false").lower() in ("1", "true", "yes")
-# ============================================
+
 
 
 def build_prompt(filename: str, language: str, code: str) -> str:
@@ -62,7 +62,7 @@ def build_prompt(filename: str, language: str, code: str) -> str:
 async def call_llm(prompt: str, max_tokens: int = 1500) -> str:
        
         if MOCK_LLM:
-            # Return mock data (offline mode)
+            
             return json.dumps({
                 "summary": "Mock summary: simple file purpose.",
                 "issues": [],
@@ -94,7 +94,7 @@ async def call_llm(prompt: str, max_tokens: int = 1500) -> str:
             resp = r.json()
 
 
-        # Extract model output text
+        
         try:
             content = resp["choices"][0]["message"]["content"]
         except (KeyError, IndexError):
@@ -108,7 +108,7 @@ async def review_code(filename: str, language: str, code: str) -> Dict[str, Any]
         prompt = build_prompt(filename, language, code)
         raw_output = await call_llm(prompt)
 
-        # Try to extract JSON from the model's text output
+        
         match = re.search(r"\{[\s\S]*\}\s*$", raw_output)
         json_text = match.group(0) if match else raw_output
 
@@ -117,7 +117,7 @@ async def review_code(filename: str, language: str, code: str) -> Dict[str, Any]
         except Exception:
             data = {"parse_error": True, "raw": raw_output}
 
-        # Add metadata for debugging
+        
         data.setdefault("llm_metadata", {})
         data["llm_metadata"]["model"] = MODEL
         return data
