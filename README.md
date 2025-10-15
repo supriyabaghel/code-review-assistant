@@ -1,4 +1,4 @@
-🧠 **Code Review Assistant**
+🧠  **Code Review Assistant**
 <div align="center">
 Intelligent AI-powered code reviewer that elevates your code quality through automated analysis
 Built with FastAPI • React • Tailwind CSS • Powered by Advanced LLM Technology
@@ -189,7 +189,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 OpenAI for GPT-4 API access
 FastAPI team for the excellent framework
 React and Tailwind communities for amazing tools
-All contributors who help improve this project
 
 
 📬 Contact & Support
